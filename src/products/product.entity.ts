@@ -1,4 +1,5 @@
 import { Category } from "src/category/category.entity";
+import { Orders } from "src/orders/orders.entity";
 import { User } from "src/user/user.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -19,9 +20,6 @@ export class Products {
     @Column({ nullable: false })
     price: number;
 
-    @Column({ nullable: false, default: 0 })
-    rating: number;
-
     @Column('simple-array', { nullable: false })
     images: string[];
 
@@ -40,6 +38,9 @@ export class Products {
     @Column({ nullable: false })
     categoryId: number;
 
+    @Column()
+    orderId: number;
+
 
     @ManyToOne(() => User, (user) => user.products)
     @JoinColumn({ name: 'userId' })
@@ -49,4 +50,7 @@ export class Products {
     @JoinColumn({ name: 'categoryId' })
     category: Category
 
+    @ManyToOne(() => Orders, (order) => order.productId)
+    @JoinColumn({ name: 'orderId' })
+    orders: Orders[]
 }

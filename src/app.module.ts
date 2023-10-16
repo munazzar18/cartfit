@@ -10,6 +10,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { jwtConstants } from './auth/constants';
     JwtModule.register({
       secret: jwtConstants.secret
     }),
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [],

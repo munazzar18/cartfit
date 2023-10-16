@@ -1,4 +1,5 @@
 import { Exclude } from "class-transformer";
+import { Orders } from "src/orders/orders.entity";
 import { Products } from "src/products/product.entity";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -43,6 +44,10 @@ export class User {
     @OneToMany(() => Products, (product) => product.user)
     @JoinColumn({ name: 'products' })
     products: Products[]
+
+    @OneToMany(() => Orders, (order) => order.user)
+    @JoinColumn({ name: 'orders' })
+    orders: Orders[]
 }
 
 
