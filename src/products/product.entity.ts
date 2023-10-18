@@ -50,7 +50,11 @@ export class Products {
     @JoinColumn({ name: 'categoryId' })
     category: Category
 
-    @ManyToOne(() => Orders, (order) => order.productId)
+    @ManyToMany(() => Orders, (order) => order.productId)
     @JoinColumn({ name: 'orderId' })
     orders: Orders[]
+}
+
+function ManyToMany(arg0: () => typeof Orders, arg1: (order: any) => any): (target: Products, propertyKey: "orders") => void {
+    throw new Error("Function not implemented.");
 }

@@ -14,7 +14,7 @@ export class Orders {
     @Column()
     productId: number;
 
-    @OneToMany(() => Products, (product) => product.orderId)
+    @ManyToMany(() => Products, (product) => product.orderId)
     @JoinColumn({ name: 'productId' })
     products: Products[]
 
@@ -22,4 +22,8 @@ export class Orders {
     @JoinColumn({ name: 'userId' })
     user: User;
 
+}
+
+function ManyToMany(arg0: () => typeof Products, arg1: (product: any) => any): (target: Orders, propertyKey: "products") => void {
+    throw new Error("Function not implemented.");
 }
