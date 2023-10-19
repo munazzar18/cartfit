@@ -8,8 +8,16 @@ export class Orders {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     userId: number;
+
+    @Column({ nullable: false })
+    productId: number;
+
+    @Column({ default: () => 'CURRENT_TIMESTAMP' })
+    createAt: Date
 
     @ManyToOne(() => User, (user) => user.orders)
     @JoinColumn({ name: 'userId' })

@@ -3,6 +3,8 @@ import { OrdersService } from './orders.service';
 import { sendJson } from 'src/helpers/helpers';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { User } from 'src/user/user.entity';
+import { CreateOrderDto } from './orderDto.dto';
+import { Products } from 'src/products/product.entity';
 
 @Controller('orders')
 export class OrdersController {
@@ -17,6 +19,13 @@ export class OrdersController {
         return sendJson(true, "all orders fetched successfully", orders)
     }
 
-
+    @Post()
+    @UseGuards(AuthGuard)
+    async createOrder(@Body() createOrderDto: CreateOrderDto, @Request() req, @Request() proq) {
+        const userId: User = req.user;
+        const product: Products = req.product
+        const order = await this.orderService.create(createOrderDto, userId, product)
+        return sendJson(true, "Order placed successfully", order)
+    }
 
 }

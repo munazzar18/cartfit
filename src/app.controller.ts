@@ -14,7 +14,6 @@ export class AppController {
   @Post('auth/login')
   async login(@Request() req) {
     const token = await this.authService.login(req.user)
-    console.log('Login token:', token)
     return sendJson(true, 'user login successfully', {
       access_token: token.access_token
     })
