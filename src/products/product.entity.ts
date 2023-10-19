@@ -1,7 +1,6 @@
 import { Category } from "src/category/category.entity";
-import { Orders } from "src/orders/orders.entity";
 import { User } from "src/user/user.entity";
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -38,9 +37,6 @@ export class Products {
     @Column({ nullable: false })
     categoryId: number;
 
-    @Column()
-    orderId: number;
-
 
     @ManyToOne(() => User, (user) => user.products)
     @JoinColumn({ name: 'userId' })
@@ -50,11 +46,5 @@ export class Products {
     @JoinColumn({ name: 'categoryId' })
     category: Category
 
-    @ManyToMany(() => Orders, (order) => order.productId)
-    @JoinColumn({ name: 'orderId' })
-    orders: Orders[]
 }
 
-function ManyToMany(arg0: () => typeof Orders, arg1: (order: any) => any): (target: Products, propertyKey: "orders") => void {
-    throw new Error("Function not implemented.");
-}

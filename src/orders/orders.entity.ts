@@ -1,6 +1,6 @@
 import { Products } from "src/products/product.entity";
 import { User } from "src/user/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Orders {
@@ -11,19 +11,17 @@ export class Orders {
     @Column()
     userId: number;
 
-    @Column()
-    productId: number;
-
-    @ManyToMany(() => Products, (product) => product.orderId)
-    @JoinColumn({ name: 'productId' })
-    products: Products[]
-
     @ManyToOne(() => User, (user) => user.orders)
     @JoinColumn({ name: 'userId' })
     user: User;
 
+    @ManyToMany(() => Products, { cascade: true })
+    @JoinTable({
+        name: "products_orders",
+        joinColumn: { name: "orderId", referencedColumnName: "id" },
+        inverseJoinColumn: { name: "productId", referencedColumnName: "id" },
+    })
+    products: Products[]
+
 }
 
-function ManyToMany(arg0: () => typeof Products, arg1: (product: any) => any): (target: Orders, propertyKey: "products") => void {
-    throw new Error("Function not implemented.");
-}
