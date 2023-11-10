@@ -21,10 +21,9 @@ export class OrdersController {
 
     @Post()
     @UseGuards(AuthGuard)
-    async createOrder(@Body() createOrderDto: CreateOrderDto, @Request() req, @Request() proq) {
+    async createOrder(@Body() createOrderDto: CreateOrderDto, @Request() req) {
         const userId: User = req.user;
-        const product: Products = req.product
-        const order = await this.orderService.create(createOrderDto, userId, product)
+        const order = await this.orderService.create(createOrderDto, userId)
         return sendJson(true, "Order placed successfully", order)
     }
 

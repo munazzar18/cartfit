@@ -4,6 +4,7 @@ import { UserService } from 'src/user/user.service';
 import { comparePass, encodedPass } from './bcrypt';
 import { serializedUser } from 'src/user/user.entity';
 import { RegisterUserDto } from './registerUser.dto';
+import { Role } from 'src/roles/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,7 @@ export class AuthService {
             email: user.email,
             id: user.id,
             username: user.firstName,
+            role: user.roles,
         }
         return {
             access_token: this.jwtService.sign(payload)
@@ -43,21 +45,23 @@ export class AuthService {
         if (userdb) {
             throw new HttpException('user with this email already exists', HttpStatus.CONFLICT)
         }
-        else {
-            const password = encodedPass(data.password)
-            const newUser = await this.userService.create({ ...data, password })
+        const password = encodedPass(data.password);
+        if (Object.values(Role).includes(data.role)) {
+            const newUser = await this.userService.create({ ...data, password, role: data.role });
             const payload = {
                 email: newUser.email,
                 id: newUser.id,
                 username: newUser.firstName,
-            }
+                role: newUser.roles,
+            };
+
             return {
                 access_token: this.jwtService.sign(payload)
-            }
-
+            };
+        } else {
+            throw new HttpException('Invalid role provided', HttpStatus.BAD_REQUEST);
         }
-
     }
-
-
 }
+
+

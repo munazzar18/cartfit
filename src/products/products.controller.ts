@@ -7,6 +7,9 @@ import { User } from 'src/user/user.entity';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { Roles } from 'src/roles/roles.decorator';
+import { Role } from 'src/roles/role.enum';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @Controller('products')
 export class ProductsController {
@@ -51,7 +54,8 @@ export class ProductsController {
         }
     }
     @Post()
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(Role.Seller)
     async createProduct(@Body() createProductDto: CreateProductDto, @Request() req) {
         const userId: User = req.user
         const data = await this.productsService.create(createProductDto, userId)

@@ -1,6 +1,6 @@
 import { Products } from "src/products/product.entity";
 import { User } from "src/user/user.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity()
 export class Orders {
@@ -15,6 +15,12 @@ export class Orders {
 
     @Column({ nullable: false })
     productId: number;
+
+    @Column({ nullable: false })
+    quantity: number;
+
+    @Column({ nullable: false })
+    totalPrice: number;
 
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     createAt: Date
